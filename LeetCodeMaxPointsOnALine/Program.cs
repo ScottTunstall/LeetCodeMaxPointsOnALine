@@ -10,6 +10,19 @@ namespace LeetCodeMaxPointsOnALine
     {
         private static Dictionary<string, int> _screenMap = new Dictionary<string, int>();
 
+        private struct Rect
+        {
+            public int X1;
+            public int Y1;
+            public int X2;
+            public int Y2;
+
+            public bool IsInBounds(in int x, in int y)
+            {
+                return (x >= X1 && x <= X2 && y >= Y1 && y <= Y2);
+            }
+        }
+
         public static int MaxPoints(int[][] points)
         {
             if (points.Length == 0)
@@ -22,7 +35,12 @@ namespace LeetCodeMaxPointsOnALine
                 asList.Add(new Point(arrItem[0], arrItem[1]));
             }
 
-
+            var minX = asList.Min(x => x.X);
+            var maxX = asList.Max(x => x.X);
+            var minY = asList.Min(x => x.Y);
+            var maxY = asList.Max(x => x.Y);
+            var rect = new Rect() {X1 = minX, X2 = maxX, Y1 = minY, Y2 = maxY};
+        
             foreach (var pt in asList)
             {
                 var key = pt.X + "_" + pt.Y;
@@ -35,42 +53,40 @@ namespace LeetCodeMaxPointsOnALine
             int best = 0;
             foreach (var pt in asList)
             {
-                if (pt.X ==1 && pt.Y==4) Debugger.Break();
-
                 var key = pt.X + "_" + pt.Y;
                 int count = 0;
                 int toAdd = _screenMap[key];
                 
                 // Left
-                count = CountPoints(pt, -1, 0) + toAdd;
+                count = CountPoints(pt, -1, 0, rect) + toAdd;
                 best = Math.Max(best, count) ;
 
                 // Above Left
-                count = CountPoints(pt, -1, 1) + toAdd;
+                count = CountPoints(pt, -1, 1,rect) + toAdd;
                 best = Math.Max(best, count) ;
                 
                 // Above
-                count = CountPoints(pt, 0,1) + toAdd;
+                count = CountPoints(pt, 0,1,rect) + toAdd;
                 best = Math.Max(best, count) ;
 
                 // Above Right
-                count = CountPoints(pt, 1, 1) + toAdd;
+                count = CountPoints(pt, 1, 1, rect) + toAdd;
                 best = Math.Max(best, count);
 
                 // Right
-                count = CountPoints(pt, 1, 0) + toAdd;
+                count = CountPoints(pt, 1, 0, rect) + toAdd;
                 best = Math.Max(best, count);
 
                 // Below Right
-                count = CountPoints(pt, 1, -1) + toAdd;
+                count = CountPoints(pt, 1, -1, rect) + toAdd;
                 best = Math.Max(best, count);
 
                 // Below 
-                count = CountPoints(pt, 0, -1) + toAdd;
+                count = CountPoints(pt, 0, -1, rect) + toAdd;
                 best = Math.Max(best, count);
 
                 // Below left
-                count = CountPoints(pt, -1, -1) + toAdd;
+                count = CountPoints(pt, -1, -1, rect) + toAdd;
                 best = Math.Max(best, count);
             }
 
@@ -79,22 +95,23 @@ namespace LeetCodeMaxPointsOnALine
         }
 
 
-        private static int CountPoints(Point startPoint, int deltaX, int deltaY)
+        private static int CountPoints(Point startPoint, in int deltaX, in int deltaY, Rect rect)
         {
             int x = startPoint.X+deltaX;
             int y = startPoint.Y+deltaY;
 
             int count = 0;
-            while (HasPoint(x, y))
+            while (rect.IsInBounds(x,y))
             {
-                count++;
+                if (HasPoint(x,y))
+                    count++;
+
                 x += deltaX;
                 y += deltaY;
             }
 
             return count;
         }
-
 
 
         private static bool HasPoint(int x, int y)

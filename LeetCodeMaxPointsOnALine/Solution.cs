@@ -16,6 +16,7 @@ namespace LeetCodeMaxPointsOnALine
             if (points.Length <2)
                 return points.Length;
                 
+            _duplicates.Clear();
             _slopeCountDictionary.Clear();
             var asList = new List<Point>();
 
@@ -24,6 +25,7 @@ namespace LeetCodeMaxPointsOnALine
                 asList.Add(new Point(arrItem[0], arrItem[1]));
             }
 
+            // Are all the points the same? If so, we don't need to calculate their slopes.
             var firstPoint = asList[0];
             if (asList.All(x => x == firstPoint))
                 return asList.Count;
@@ -46,7 +48,7 @@ namespace LeetCodeMaxPointsOnALine
             for (int i = 0; i < asList.Count - 1; i++)
             {
                 var startPoint = asList[i];
-                var countOfDuplicates = _duplicates.ContainsKey(startPoint) ? _duplicates[startPoint] : 0;
+                var startPointDuplicates = _duplicates.ContainsKey(startPoint) ? _duplicates[startPoint] : 0;
 
                 for (int j = 1; j < asList.Count; j++)
                 {
@@ -54,10 +56,12 @@ namespace LeetCodeMaxPointsOnALine
                     if (startPoint == endPoint)
                         continue;
 
+                    var endPointDuplicates = _duplicates.ContainsKey(endPoint) ? _duplicates[endPoint] : 0;
+
                     var slope = CalculateSlope(startPoint, endPoint);
 
                     string key = i + "_" + slope.ToString();
-                    IncrementValueForKey(key, countOfDuplicates); // pointsSameAsOrigin+1);
+                    IncrementValueForKey(key, startPointDuplicates + endPointDuplicates); // pointsSameAsOrigin+1);
                 }
             }
 

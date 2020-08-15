@@ -41,6 +41,17 @@ namespace LeetCodeMaxPointsOnALine
             points = new int[][]
             {
                 new[] {1, 1},
+                new[] {1, 1},
+                new[] {2, 2},
+                new[] {2, 2},
+            };
+
+            count = sol.MaxPoints(points);
+            Debug.Assert(count == 4);
+
+            points = new int[][]
+            {
+                new[] {1, 1},
                 new[] {2, 2},
                 new[] {3,3}
             };

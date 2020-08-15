@@ -50,7 +50,7 @@ namespace LeetCodeMaxPointsOnALine
                 var startPoint = asList[i];
                 var startPointDuplicates = _duplicates.ContainsKey(startPoint) ? _duplicates[startPoint] : 0;
 
-                for (int j = 1; j < asList.Count; j++)
+                for (int j = i+1; j < asList.Count; j++)
                 {
                     var endPoint = asList[j];
                     if (startPoint == endPoint)
@@ -80,7 +80,7 @@ namespace LeetCodeMaxPointsOnALine
             }
         }
 
-        private static float CalculateSlope(Point p1, Point p2)
+        private static double CalculateSlope(Point p1, Point p2)
         {
             if (p1 == p2)
                 return 0;
@@ -93,13 +93,11 @@ namespace LeetCodeMaxPointsOnALine
             if (x1 == x2)
                 return 0;
 
-            float slope = (float)(y2 - y1) / (x2 - x1);
-            float roundedTo2Dp = (float)Math.Round(slope, 2);
-            
+            double slope = (double)(y2 - y1) / (x2 - x1);
             
             //Console.WriteLine($"Slope between {x1},{y1} and {x2},{y2} is: {roundedTo2Dp}");
             
-            return roundedTo2Dp;
+            return slope;
         }
     }
 }

@@ -16,7 +16,6 @@ namespace LeetCodeMaxPointsOnALine
             int count;
             var sol = new Solution();
 
-
             points = new int[][]
             {
                 new[] {0, 0},
@@ -86,13 +85,11 @@ namespace LeetCodeMaxPointsOnALine
             {
                 new[] {0, 0},
                 new[] {94911150, 94911151},
-                new[] {94911151, 94911152}
+                new[] { 94911151, 94911152}
             };
 
             count = sol.MaxPoints(points);
             Debug.Assert(count==2);
-
-            Console.WriteLine(count);
         }
     }
 }

@@ -23,29 +23,43 @@ namespace LeetCodeMaxPointsOnALine
                 asList.Add(new Point(arrItem[0], arrItem[1]));
             }
 
+            var firstPoint = asList[0];
+            if (asList.All(x => x == firstPoint))
+                return asList.Count;
+
             for (int i = 0; i < asList.Count - 1; i++)
             {
+                int pointsSameAsOrigin= 0;
                 var startPoint = asList[i];
-                
+
+                for (int k = 1; k < asList.Count; k++)
+                {
+                    var endPoint = asList[k];
+                    if (startPoint == endPoint)
+                        pointsSameAsOrigin++;
+                }
+
                 for (int j = 1; j < asList.Count; j++)
                 {
                     var endPoint = asList[j];
+                    if (startPoint == endPoint)
+                        continue;
 
                     var slope = CalculateSlope(startPoint, endPoint);
 
                     string key = i + "_" + slope.ToString();
-                    IncrementValueForKey(key);
+                    IncrementValueForKey(key, pointsSameAsOrigin+1);
                 }
             }
 
             return _slopeCountDictionary.Max(x => x.Value) + 1;
         }
 
-        private void IncrementValueForKey(in string key)
+        private void IncrementValueForKey(in string key, int startValue)
         {
             if (!_slopeCountDictionary.ContainsKey(key))
             {
-                _slopeCountDictionary[key] = 1;
+                _slopeCountDictionary[key] = startValue;
             }
             else
             {
@@ -63,8 +77,12 @@ namespace LeetCodeMaxPointsOnALine
             int x2 = p2.X;
             int y2 = p2.Y;
 
+            if (x1 == x2)
+                return 0;
+
             float slope = (float)(y2 - y1) / (x2 - x1);
-            return (float)Math.Round(slope, 2);
+            float rounded = (float)Math.Round(slope, 2);
+            return rounded;
         }
     }
 }

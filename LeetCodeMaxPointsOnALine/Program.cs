@@ -25,28 +25,28 @@ namespace LeetCodeMaxPointsOnALine
             //};
 
             //count = sol.MaxPoints(points);
-            //Debug.Assert(count==3);
-
-            //points = new int[][]
-            //{
-            //    new[] {1, 1},
-            //    new[] {1, 1},
-            //    new[] {1, 1}
-            //};
-
-            //count = sol.MaxPoints(points);
             //Debug.Assert(count == 3);
 
+            points = new int[][]
+            {
+                new[] {1, 1},
+                new[] {1, 1},
+                new[] {1, 1}
+            };
 
-            //points = new int[][]
-            //{
-            //    new[] {1, 1},
-            //    new[] {2, 2},
-            //    new[] {3,3}
-            //};
+            count = sol.MaxPoints(points);
+            Debug.Assert(count == 3);
 
-            //count = sol.MaxPoints(points);
-            //Debug.Assert(count == 3);
+
+            points = new int[][]
+            {
+                new[] {1, 1},
+                new[] {2, 2},
+                new[] {3,3}
+            };
+
+            count = sol.MaxPoints(points);
+            Debug.Assert(count == 3);
 
             points = new int[][]
             {

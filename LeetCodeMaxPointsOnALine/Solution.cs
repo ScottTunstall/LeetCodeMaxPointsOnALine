@@ -8,7 +8,7 @@ namespace LeetCodeMaxPointsOnALine
 {
     public class Solution
     {
-        Dictionary<string, int> _slopeCountDictionary = new Dictionary<string, int>();
+        public Dictionary<string, int> _slopeCountDictionary = new Dictionary<string, int>();
 
         public int MaxPoints(int[][] points)
         {
@@ -32,12 +32,12 @@ namespace LeetCodeMaxPointsOnALine
                 int pointsSameAsOrigin= 0;
                 var startPoint = asList[i];
 
-                for (int k = 1; k < asList.Count; k++)
-                {
-                    var endPoint = asList[k];
-                    if (startPoint == endPoint)
-                        pointsSameAsOrigin++;
-                }
+                //for (int k = 1; k < asList.Count; k++)
+                //{
+                //    var endPoint = asList[k];
+                //    if (startPoint == endPoint)
+                //        pointsSameAsOrigin++;
+                //}
 
                 for (int j = 1; j < asList.Count; j++)
                 {
@@ -48,11 +48,11 @@ namespace LeetCodeMaxPointsOnALine
                     var slope = CalculateSlope(startPoint, endPoint);
 
                     string key = i + "_" + slope.ToString();
-                    IncrementValueForKey(key, pointsSameAsOrigin+1);
+                    IncrementValueForKey(key, 2); // pointsSameAsOrigin+1);
                 }
             }
 
-            return _slopeCountDictionary.Max(x => x.Value) + 1;
+            return _slopeCountDictionary.Max(x => x.Value);
         }
 
         private void IncrementValueForKey(in string key, int startValue)
@@ -81,8 +81,12 @@ namespace LeetCodeMaxPointsOnALine
                 return 0;
 
             float slope = (float)(y2 - y1) / (x2 - x1);
-            float rounded = (float)Math.Round(slope, 2);
-            return rounded;
+            float roundedTo2Dp = (float)Math.Round(slope, 2);
+            
+            
+            //Console.WriteLine($"Slope between {x1},{y1} and {x2},{y2} is: {roundedTo2Dp}");
+            
+            return roundedTo2Dp;
         }
     }
 }

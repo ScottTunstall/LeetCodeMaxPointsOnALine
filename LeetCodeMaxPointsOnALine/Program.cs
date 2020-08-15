@@ -17,15 +17,15 @@ namespace LeetCodeMaxPointsOnALine
             var sol = new Solution();
 
 
-            //points = new int[][]
-            //{
-            //    new[] {0, 0},
-            //    new[] {1, 1},
-            //    new[] {0, 0}
-            //};
+            points = new int[][]
+            {
+                new[] {0, 0},
+                new[] {1, 1},
+                new[] {0, 0}
+            };
 
-            //count = sol.MaxPoints(points);
-            //Debug.Assert(count == 3);
+            count = sol.MaxPoints(points);
+            Debug.Assert(count == 3);
 
             points = new int[][]
             {

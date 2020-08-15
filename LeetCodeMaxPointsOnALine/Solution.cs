@@ -8,6 +8,7 @@ namespace LeetCodeMaxPointsOnALine
 {
     public class Solution
     {
+        public Dictionary<Point,int> _duplicates = new Dictionary<Point, int>();
         public Dictionary<string, int> _slopeCountDictionary = new Dictionary<string, int>();
 
         public int MaxPoints(int[][] points)
@@ -27,17 +28,25 @@ namespace LeetCodeMaxPointsOnALine
             if (asList.All(x => x == firstPoint))
                 return asList.Count;
 
+            // first strip out duplicate points, remembering how many there are for each point
+            for (int i = 0; i < asList.Count; i++)
+            {
+                var pt = asList[i];
+                for (int j = i+1; j < asList.Count; j++)
+                {
+                    if (pt == asList[j])
+                    {
+                        _duplicates[pt] = _duplicates.ContainsKey(pt) ? _duplicates[pt] +1 : 1;
+                        asList.RemoveAt(j);
+                    }
+                }
+            }
+
+
             for (int i = 0; i < asList.Count - 1; i++)
             {
-                int pointsSameAsOrigin= 0;
                 var startPoint = asList[i];
-
-                //for (int k = 1; k < asList.Count; k++)
-                //{
-                //    var endPoint = asList[k];
-                //    if (startPoint == endPoint)
-                //        pointsSameAsOrigin++;
-                //}
+                var countOfDuplicates = _duplicates.ContainsKey(startPoint) ? _duplicates[startPoint] : 0;
 
                 for (int j = 1; j < asList.Count; j++)
                 {
@@ -48,18 +57,18 @@ namespace LeetCodeMaxPointsOnALine
                     var slope = CalculateSlope(startPoint, endPoint);
 
                     string key = i + "_" + slope.ToString();
-                    IncrementValueForKey(key, 2); // pointsSameAsOrigin+1);
+                    IncrementValueForKey(key, countOfDuplicates); // pointsSameAsOrigin+1);
                 }
             }
 
             return _slopeCountDictionary.Max(x => x.Value);
         }
 
-        private void IncrementValueForKey(in string key, int startValue)
+        private void IncrementValueForKey(in string key, int defaultValue)
         {
             if (!_slopeCountDictionary.ContainsKey(key))
             {
-                _slopeCountDictionary[key] = startValue;
+                _slopeCountDictionary[key] = defaultValue + 2;
             }
             else
             {

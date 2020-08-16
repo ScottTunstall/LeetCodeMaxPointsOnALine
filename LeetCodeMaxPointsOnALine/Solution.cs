@@ -80,7 +80,7 @@ namespace LeetCodeMaxPointsOnALine
             }
         }
 
-        private static double CalculateSlope(Point p1, Point p2)
+        private static Decimal CalculateSlope(Point p1, Point p2)
         {
             if (p1 == p2)
                 return 0;
@@ -93,7 +93,7 @@ namespace LeetCodeMaxPointsOnALine
             if (x1 == x2)
                 return 0;
 
-            double slope = (double)(y2 - y1) / (x2 - x1);
+            Decimal slope = (Decimal)(y2 - y1) / (x2 - x1);
             
             //Console.WriteLine($"Slope between {x1},{y1} and {x2},{y2} is: {roundedTo2Dp}");
             
